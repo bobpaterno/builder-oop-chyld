@@ -1,0 +1,14 @@
+extends ../shared/template
+
+block content
+  h1 Age of Empires
+
+  #controls
+    input#username(type='text', autofocus=true, placeholder='Username')
+    button#login Login
+
+  #dashboard
+  #forest
+
+block scripts
+  script(src='/js/es6/compiled/game.js')
