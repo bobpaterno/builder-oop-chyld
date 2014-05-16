@@ -17,8 +17,12 @@ class Tree{
   }
 
   grow(){
-    this.height += _.random(0,2);
-    this.isHealthy = _.random(0, 200) !== 71;
+    var max = this.isAdult ? 0.1*this.height : 2;
+    this.height += _.random(0,max);
+
+    max = this.isAdult ? Math.floor(200 - (0.1*this.height/12)) : 200;
+    max = max < 10 ? 10 : max;
+    this.isHealthy = _.random(0,max) !== Math.round(max/2);
   }
 
   chop(user){
@@ -28,14 +32,30 @@ class Tree{
     this.isChopped = true;
   }
 
-  getClass(){
+  get isAdult() {
+    return this.height>=48;
+  }
+
+  get isChoppable() {
+    return this.isAdult && this.isHealthy && !this.isBeanStalk;
+  }
+
+  get isBeanStalk() {
+    return (this.height/12) > 10000;
+  }
+
+  get isGrowable() {
+    return this.isHealthy && !this.isBeanStalk;
+  }
+
+  get classes(){
     var classes = [];
 
     if(this.height === 0){
       classes.push('seed');
-    }else if(this.height < 12){
-      classes.push('sapling');
     }else if(this.height < 24){
+      classes.push('sapling');
+    }else if( !this.isAdult ){
       classes.push('treenager');
     }else{
       classes.push('adult');
@@ -49,6 +69,9 @@ class Tree{
 
     if(this.isChopped){
       classes.push('stump');
+    }
+    if(this.isBeanStalk) {
+      classes.push('beanstalk');
     }
 
     return classes.join(' ');

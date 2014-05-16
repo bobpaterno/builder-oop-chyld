@@ -5,6 +5,7 @@ var Tree = traceur.require(__dirname + '/../models/tree.js');
 var User = traceur.require(__dirname + '/../models/user.js');
 
 exports.plant = (req, res)=>{
+console.log('abc');
   Tree.plant(req.body.userId, tree=>res.render('trees/tree', {tree:tree}));
 };
 

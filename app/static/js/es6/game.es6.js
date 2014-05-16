@@ -1,5 +1,14 @@
 /* jshint unused:false */
 
+// global vars
+var audioChop, audioBeanStalk;
+
+// global functions
+function ajax(url, type, data={}, success=r=>console.log(r), dataType='html'){
+  'use strict';
+  $.ajax({url:url, type:type, dataType:dataType, data:data, success:success});
+}
+
 (function(){
   'use strict';
 
@@ -12,6 +21,23 @@
     $('#forest').on('click', '.grow', grow);
     $('#forest').on('click', '.chop', chop);
     $('#dashboard').on('click', '#sell-wood', sellWood);
+    $('#dashboard').on('click', '#purchase-autogrow', purchaseAutogrow);
+
+    preloadAssets();
+  }
+
+  function purchaseAutogrow() {
+    var userId = $('#user').attr('data-id');
+    ajax(`/users/${userId}/purchase/autogrow`, 'put', null, h=>{
+      $('#dashboard').empty().append(h);
+    });
+  }
+
+  function preloadAssets() {
+    audioChop = $('<audio>')[0];
+    audioChop.src = '/audios/timber.mp3';
+    audioBeanStalk = $('<audio>')[0];
+    audioBeanStalk.src = '/audios/lumberjack.mp3';
   }
 
   function sellWood(){
@@ -29,6 +55,7 @@
     ajax(`/trees/${treeId}/chop/${userId}`, 'put', null, h=>{
       tree.replaceWith(h);
       dashboard();
+      audioChop.play();
     });
   }
 
@@ -44,6 +71,9 @@
     var treeId = tree.attr('data-id');
     ajax(`/trees/${treeId}/grow`, 'put', null, h=>{
       tree.replaceWith(h);
+      if($(h).hasClass('beanstalk')) {
+        audioBeanStalk.play();
+      }
     });
   }
 
@@ -69,7 +99,4 @@
     });
   }
 
-  function ajax(url, type, data={}, success=r=>console.log(r), dataType='html'){
-    $.ajax({url:url, type:type, dataType:dataType, data:data, success:success});
-  }
 })();

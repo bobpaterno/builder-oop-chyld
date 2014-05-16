@@ -27,6 +27,13 @@ body{
   float: left;
 }
 
+.autogrow {
+  width: 100px !important;
+  height:100px;
+  background-image: url('/img/ag1.gif');
+  background-size: 50%;
+  background-repeat: no-repeat;
+}
 .alive.seed{
   background-image: url(/img/seed.jpg);
 }
@@ -43,10 +50,37 @@ body{
   background-image: url(/img/adult.jpg);
 }
 
+.alive.adult.beanstalk{
+  background-image: url(/img/beanstalk.png);
+}
+
 .dead{
   background-image: url(/img/dead.jpg);
 }
 
 .stump{
   background-image: url(/img/stump.jpg);
+}
+
+#items {
+  height: 50px;
+  border: 1 solid black;
+  padding: 10px;
+  margin: 10px 0px 10px 0px;
+}
+
+.item {
+  background-size: 65%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
+//  box-shadow: 0px 0px 20px rgba(20,100,20,0.9);
+  border-radius: 15px;
+  background-color: rgba(50,150,50,0.2);
+}
+
+.on {
+  box-shadow: 0px 0px 20px rgba(20,100,20,0.9);
+  background-color: rgba(50,150,50,0.5);
 }
